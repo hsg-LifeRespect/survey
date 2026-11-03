@@ -140,9 +140,50 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 footer { margin-top: 44px; font-size: .85rem; color: var(--muted); max-width: 680px; display: grid; gap: 6px; }
 #help { margin-top: 28px; }
+
+/* 한우 목장 풍경 */
+:root { --hill1: #d3ebd6; --hill2: #bde0c3; --hill3: #a5d3ad; --cow: #b0723f; --cow-dark: #8c5a31; --cow-muzzle: #dcae84; --cow-eye: #2b1a10; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --hill1: #1d3a3c; --hill2: #183234; --hill3: #132a2b; --cow: #c48d5c; --cow-dark: #a3714a; --cow-muzzle: #e0b690; }
+}
+:root[data-theme="dark"] { --hill1: #1d3a3c; --hill2: #183234; --hill3: #132a2b; --cow: #c48d5c; --cow-dark: #a3714a; --cow-muzzle: #e0b690; }
+.pasture { position: relative; height: 170px; margin: 28px calc(50% - 50vw) -40px; overflow: hidden; pointer-events: none; }
+.pasture .hills { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pasture .cow { position: absolute; height: auto; }
+.cow1 { left: 7%; bottom: 20px; width: clamp(84px, 14vw, 128px); }
+.cow2 { left: 58%; bottom: 40px; width: clamp(64px, 10vw, 92px); transform: scaleX(-1); }
+.cow3 { left: 72%; bottom: 18px; width: clamp(46px, 7vw, 64px); }
+@media (max-width: 480px) { .cow3 { display: none; } .cow2 { left: 62%; } }
+.cw-body { fill: var(--cow); }
+.cw-dark { fill: var(--cow-dark); }
+.cw-muzzle { fill: var(--cow-muzzle); }
+.cw-eye { fill: var(--cow-eye); }
+.cw-tail { fill: none; stroke: var(--cow-dark); stroke-width: 4; stroke-linecap: round; }
+.cw-horn { fill: none; stroke: var(--cow-muzzle); stroke-width: 3; stroke-linecap: round; }
 </style>
 </head>
-<body><div class="sky" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
+<body><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="hanwoo" viewBox="0 0 200 130">
+      <path class="cw-tail" d="M152 50 C168 56 170 78 163 98"/>
+      <circle class="cw-dark" cx="163" cy="101" r="5"/>
+      <rect class="cw-dark" x="64" y="84" width="9" height="36" rx="4"/>
+      <rect class="cw-dark" x="136" y="84" width="9" height="36" rx="4"/>
+      <rect class="cw-body" x="44" y="42" width="108" height="48" rx="22"/>
+      <ellipse class="cw-body" cx="68" cy="44" rx="21" ry="11"/>
+      <rect class="cw-body" x="52" y="80" width="10" height="40" rx="4"/>
+      <rect class="cw-body" x="124" y="80" width="10" height="40" rx="4"/>
+      <path class="cw-body" d="M40 46 L58 42 L60 78 L38 74 Z"/>
+      <ellipse class="cw-body" cx="32" cy="60" rx="19" ry="15" transform="rotate(25 32 60)"/>
+      <ellipse class="cw-muzzle" cx="19" cy="73" rx="10" ry="8"/>
+      <ellipse class="cw-dark" cx="47" cy="49" rx="9" ry="4" transform="rotate(-20 47 49)"/>
+      <path class="cw-horn" d="M38 46 Q34 36 40 32"/>
+      <circle class="cw-eye" cx="29" cy="58" r="2.2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="sky" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
 
 <div class="wrap">
   <header class="top">
@@ -166,6 +207,17 @@ footer { margin-top: 44px; font-size: .85rem; color: var(--muted); max-width: 68
     <p>이 검진은 마음 상태를 가늠해 보는 참고용 선별 도구이며, 의학적 진단이 아닙니다. 점수와 관계없이 불편이 이어지면 정신건강의학과나 지역 정신건강복지센터와 상담해 보세요.</p>
     <p>입력한 답변은 이 화면 안에서만 계산되고, 어디에도 저장되거나 전송되지 않습니다.</p>
   </footer>
+
+  <div class="pasture" aria-hidden="true">
+    <svg class="hills" viewBox="0 0 1200 170" preserveAspectRatio="none">
+      <path d="M0 90 C200 40 400 70 600 55 C800 40 1000 80 1200 50 L1200 170 L0 170 Z" fill="var(--hill1)"/>
+      <path d="M0 122 C250 82 450 112 700 92 C900 77 1050 107 1200 97 L1200 170 L0 170 Z" fill="var(--hill2)"/>
+      <path d="M0 150 C300 120 600 150 900 130 C1050 122 1150 135 1200 132 L1200 170 L0 170 Z" fill="var(--hill3)"/>
+    </svg>
+    <svg class="cow cow1" viewBox="0 0 200 130"><use href="#hanwoo"/></svg>
+    <svg class="cow cow2" viewBox="0 0 200 130"><use href="#hanwoo"/></svg>
+    <svg class="cow cow3" viewBox="0 0 200 130"><use href="#hanwoo"/></svg>
+  </div>
 </div>
 
 <script>
