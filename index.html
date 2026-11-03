@@ -205,7 +205,7 @@ footer { margin-top: 44px; font-size: .85rem; color: var(--muted); max-width: 68
 
   <footer>
     <p>이 검진은 마음 상태를 가늠해 보는 참고용 선별 도구이며, 의학적 진단이 아닙니다. 점수와 관계없이 불편이 이어지면 정신건강의학과나 지역 정신건강복지센터와 상담해 보세요.</p>
-    <p>입력한 답변은 이 화면 안에서만 계산되고, 어디에도 저장되거나 전송되지 않습니다.</p>
+    <p>입력한 답변과 점수는 이 화면 안에서만 계산되고, 어디에도 저장되거나 전송되지 않습니다.</p>
   </footer>
 
   <div class="pasture" aria-hidden="true">
@@ -290,6 +290,32 @@ var TESTS = {
 };
 var ORDER = ["phq9", "gad7", "who5"];
 
+/* 방문 통계 (GoatCounter). GoatCounter 가입 시 정한 사이트 코드를 아래 따옴표 안에 넣으면 켜집니다.
+   예) "maeum" → https://maeum.goatcounter.com 비워 두면 통계는 꺼져 있고 외부로 아무것도 보내지 않습니다. */
+var GC_CODE = "";
+
+function loadStats() {
+  if (!GC_CODE) return;
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter", "https://" + GC_CODE + ".goatcounter.com/count");
+  document.head.appendChild(s);
+  var p = document.createElement("p");
+  p.textContent = "방문 횟수와 검진 완료 횟수를 세기 위해 GoatCounter 통계를 사용합니다. 쿠키를 쓰지 않으며, 답변과 점수는 보내지 않습니다.";
+  var f = document.querySelector("footer");
+  if (f) f.appendChild(p);
+}
+
+/* 검진을 끝까지 마친 횟수만 보냅니다. 답변과 점수는 보내지 않습니다. */
+function track(path, title) {
+  try {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: true });
+    }
+  } catch (e) {}
+}
+
 var app = document.getElementById("app");
 var state = { id: null, i: 0, ans: [] };
 
@@ -331,6 +357,7 @@ function renderQuestion() {
 
 function renderResult() {
   var t = TESTS[state.id];
+  track("complete-" + state.id, t.name + " 검진 완료");
   var raw = state.ans.reduce(function (a, b) { return a + b; }, 0);
   var shown = t.percent ? raw * 4 : raw;
   var lvIdx = 0;
@@ -395,6 +422,7 @@ function route() {
 }
 window.addEventListener("hashchange", route);
 route();
+loadStats();
 </script>
 </body>
 </html>
