@@ -1,0 +1,138 @@
+/* 숨쉼 전용 스타일 (공통은 ../shared/common.css) */
+
+/* ---- 일러스트 색과 움직임 ---- */
+svg .blob { fill: var(--blob); opacity: .55; }
+svg .sunf { fill: var(--sun); } svg .halo { fill: var(--sun); opacity: .35; transform-box: fill-box; transform-origin: center; animation: pulse 5s ease-in-out infinite; }
+svg .cloudf { fill: var(--cloud); opacity: .95; }
+svg .h1 { fill: var(--hill1); } svg .h2 { fill: var(--hill2); } svg .h3 { fill: var(--hill3); }
+svg .stem { stroke: var(--leaf2); stroke-width: 3; fill: none; stroke-linecap: round; }
+svg .leaf { fill: var(--leaf); } svg .leaf2 { fill: var(--leaf2); }
+svg .pet-a { fill: var(--petal); } svg .pet-b { fill: #fff; } svg .pet-c { fill: var(--petal2); } svg .fcent { fill: var(--sun); }
+svg .hs1 { stop-color: var(--heart1); } svg .hs2 { stop-color: var(--heart2); }
+svg .shine { fill: #fff; opacity: .55; }
+svg .gshadow { fill: var(--hill3); opacity: .55; }
+svg .tw { stroke: var(--sun); stroke-width: 4; stroke-linecap: round; fill: none; animation: twinkle 2.4s ease-in-out infinite; animation-delay: var(--d); }
+svg .fh { fill: var(--heart1); opacity: 0; animation: floatup 6s ease-in infinite; animation-delay: var(--d); }
+svg .sway { transform-origin: 0 0; animation: sway 5s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+svg .pop { transform-origin: 0 0; animation: pop .9s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: var(--d, 0s); }
+svg .bob { animation: bob 4.5s ease-in-out infinite; }
+svg .cdrift { animation: cdrift var(--t, 18s) ease-in-out infinite alternate; }
+@keyframes sway { from { transform: rotate(-2.5deg); } to { transform: rotate(3deg); } }
+@keyframes pop { from { transform: scale(0); } 60% { transform: scale(1.15); } to { transform: scale(1); } }
+@keyframes bob { 50% { transform: translateY(-8px); } }
+@keyframes twinkle { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+@keyframes floatup { 0% { transform: translateY(0) scale(var(--s, 1)); opacity: 0; } 20% { opacity: .85; } 100% { transform: translateY(-110px); opacity: 0; } }
+@keyframes cdrift { from { transform: translateX(calc(var(--amp) * -1)); } to { transform: translateX(var(--amp)); } }
+@keyframes pulse { 50% { transform: scale(1.12); } }
+
+/* ---- 화면 전환 ---- */
+.in-up { animation: inUp .55s cubic-bezier(.2, .8, .3, 1) both; }
+.in-next { animation: inNext .45s cubic-bezier(.2, .8, .3, 1) both; }
+.out-up { animation: outUp .22s ease forwards; }
+.out-next { animation: outNext .22s ease forwards; }
+@keyframes inUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes inNext { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes outUp { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes outNext { to { opacity: 0; transform: translateX(-28px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---- 처음 화면 ---- */
+.hero { display: grid; gap: 14px; align-items: center; }
+@media (min-width: 760px) { .hero { grid-template-columns: 1fr 1.2fr; gap: 24px; } }
+.hero h1 { font-family: var(--f-hand); font-weight: 700; font-size: clamp(2.3rem, 8vw, 3.3rem); line-height: 1.2; }
+.hl { background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 45%, transparent) 62%); border-radius: 4px; padding: 0 .08em; }
+.hero p.lead { color: var(--muted); margin-top: 10px; }
+.hero-art svg { width: 100%; height: auto; display: block; }
+.bubble { margin-top: 16px; min-height: 4.4rem; display: flex; align-items: center; padding: 14px 20px; border-radius: 28px 28px 28px 8px; background: var(--card); box-shadow: 0 6px 20px rgba(190, 110, 100, .12); font-family: var(--f-hand); font-weight: 700; font-size: 1.45rem; line-height: 1.35; transition: opacity .5s ease, transform .5s ease; }
+.bubble.fade { opacity: 0; transform: translateY(6px); }
+.cards { display: grid; gap: 14px; margin-top: 20px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+.card { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 24px; padding: 20px; animation: rise .6s cubic-bezier(.2, .8, .3, 1) both; animation-delay: calc(var(--i, 0) * .12s + .1s); transition: transform .25s, box-shadow .25s; }
+.card.c-green { background: linear-gradient(155deg, var(--sage-soft), var(--card) 75%); }
+.card.c-blue { background: linear-gradient(155deg, var(--blue-soft), var(--card) 75%); }
+.card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(190, 110, 100, .16); }
+.card:active { transform: scale(.98); }
+.card .ic { width: 58px; height: 58px; display: block; transition: transform .6s ease; }
+.card:hover .ic { transform: rotate(18deg) scale(1.08); }
+.card h2 { font-family: var(--f-hand); font-weight: 700; font-size: 1.7rem; margin: 6px 0 4px; }
+.card p { color: var(--muted); font-size: .95rem; }
+.card .tagc { font-size: .8rem; color: var(--sage-ink); font-weight: 500; }
+.ic .op-a { fill: var(--petal); } .ic .op-b { fill: var(--petal2); } .ic .oc { fill: var(--sun); } .ic .ic-a { fill: #fff; stroke: var(--line); stroke-width: 1.5; } .ic .ic-b { fill: var(--heart2); }
+.sisterbox { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: var(--card); border: 1px dashed var(--line); border-radius: 20px; padding: 14px 18px; animation: rise .6s both; animation-delay: .4s; }
+.sisterbox b { display: block; font-family: var(--f-hand); font-weight: 700; font-size: 1.3rem; }
+.sisterbox span { color: var(--muted); font-size: .92rem; }
+.garden { margin: 26px -16px -6px; overflow: hidden; border-radius: 0 0 24px 24px; }
+.garden svg { width: 100%; height: auto; display: block; }
+
+/* ---- 공통 패널 ---- */
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 24px; box-shadow: 0 10px 30px rgba(190, 110, 100, .1); backdrop-filter: blur(4px); }
+.panel h2 { font-family: var(--f-hand); font-weight: 700; font-size: 1.9rem; }
+.lead { color: var(--muted); margin-top: 6px; }
+.back { background: none; border: 0; color: var(--ink); padding: 4px 0; margin-bottom: 8px; text-decoration: none; display: inline-block; }
+.opts { display: grid; gap: 10px; margin-top: 16px; }
+.opt { text-align: left; background: transparent; border: 1px solid var(--line); border-radius: 18px; padding: 12px 16px; transition: background .2s, border-color .2s, transform .15s; }
+.opt:hover { background: var(--sage-soft); }
+.opt:active { transform: scale(.985); }
+.opt b { font-weight: 500; }
+.opt small { display: block; color: var(--muted); }
+.opt[aria-pressed="true"] { border-color: var(--sage-ink); background: var(--sage-soft); box-shadow: inset 0 0 0 1px var(--sage-ink); }
+.chips { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 6px 18px; transition: background .2s; }
+.chip[aria-pressed="true"] { background: var(--sage-ink); color: #fff; border-color: var(--sage-ink); }
+.label { margin-top: 18px; font-weight: 500; }
+.safe { margin-top: 16px; font-size: .88rem; color: var(--muted); }
+.ready { margin: 14px 0 0; padding-left: 1.3em; }
+.ready li::marker { color: var(--accent); content: "● "; font-size: .7em; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+/* ---- 호흡 화면 ---- */
+.stage { position: relative; overflow: hidden; text-align: center; padding: 14px 0 20px; }
+.orbwrap { width: min(74vw, 320px); aspect-ratio: 1; margin: 0 auto; display: grid; place-items: center; position: relative; z-index: 1; }
+.orb { width: 100%; height: 100%; transform: scale(.55); transition: transform var(--d, 1s) ease-in-out; }
+.orb.in, .orb.hold { transform: scale(1); } .orb.out { transform: scale(.55); }
+.orb svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.orb .petals, .orb .petals2 { transition: transform var(--d, 1s) ease-in-out; transform-origin: 0 0; }
+.orb.in .petals, .orb.hold .petals { transform: rotate(22.5deg); } .orb.in .petals2, .orb.hold .petals2 { transform: rotate(-22.5deg); }
+.orb .op-a { fill: var(--petal); fill-opacity: .9; } .orb .op-b { fill: var(--petal2); fill-opacity: .9; } .orb .op-c { fill: #fff; fill-opacity: .7; } .orb .oc { fill: var(--sun); }
+.orb .hl1 { stop-color: var(--sun); stop-opacity: .55; } .orb .hl2 { stop-color: var(--sun); stop-opacity: 0; }
+.phase { font-family: var(--f-hand); font-weight: 700; font-size: 2.2rem; margin-top: 4px; min-height: 2.8rem; transition: opacity .3s; position: relative; z-index: 1; }
+.count { color: var(--muted); font-size: 1.2rem; min-height: 1.7rem; position: relative; z-index: 1; }
+.bar { height: 8px; background: var(--soft); border-radius: 99px; margin: 16px auto 0; max-width: 360px; overflow: visible; position: relative; z-index: 1; }
+.bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--petal), var(--accent)); border-radius: 99px; }
+.left { color: var(--muted); font-size: .9rem; margin-top: 6px; position: relative; z-index: 1; }
+.stage .actions { position: relative; z-index: 1; justify-content: center; }
+.pf { position: absolute; top: -20px; width: 12px; height: 16px; border-radius: 50% 50% 50% 0; background: var(--petal); opacity: 0; animation: fall 12s linear infinite; }
+.pf:nth-of-type(2n) { background: var(--petal2); }
+@keyframes fall { 0% { transform: translate(0, 0) rotate(0); opacity: 0; } 10% { opacity: .8; } 100% { transform: translate(40px, 520px) rotate(300deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .orb { transform: none !important; transition: none !important; } .orb .petals, .orb .petals2 { transform: none !important; transition: none !important; }
+  .orb.in .op-a, .orb.hold .op-a { fill-opacity: 1; } .orb.out .op-a { fill-opacity: .35; } .pf { display: none; }
+}
+body.session-mode .help-strip, body.session-mode footer, body.session-mode .tools .sw, body.session-mode .garden { display: none; }
+
+/* ---- OX 퀴즈 ---- */
+.fl-row { display: flex; gap: 6px; justify-content: center; margin: 4px 0 14px; flex-wrap: wrap; }
+.fl { width: 28px; height: 28px; overflow: visible; }
+.fl .p { fill: var(--line); transition: fill .4s; } .fl .c { fill: var(--bg); transition: fill .4s; }
+.fl.done .p { fill: var(--petal); } .fl.done .c { fill: var(--sun); }
+.fl.fresh { animation: pop .7s cubic-bezier(.3, 1.5, .5, 1); }
+.fl.now { animation: nowp 1.8s ease-in-out infinite; } .fl.now .p { fill: var(--blue-soft); }
+@keyframes nowp { 50% { transform: scale(1.18); } }
+.qno { color: var(--muted); font-size: .9rem; text-align: center; }
+.qtext { font-family: var(--f-display); font-size: 1.4rem; margin-top: 10px; line-height: 1.55; text-align: center; }
+.ox { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.ox button { border: 1px solid var(--line); background: transparent; border-radius: 20px; padding: 16px 8px; font-size: 1.05rem; transition: background .2s, transform .15s, border-color .2s; }
+.ox button b { display: block; font-family: var(--f-hand); font-size: 2.2rem; font-weight: 700; line-height: 1.1; }
+.ox button:not(:disabled):hover { background: var(--blue-soft); }
+.ox button:not(:disabled):active { transform: scale(.96); }
+.ox button:disabled { cursor: default; opacity: .6; }
+.ox button.pick { opacity: 1; border-color: var(--btn); background: var(--soft); }
+.reveal { margin-top: 18px; padding: 16px 18px; border-radius: 20px; background: var(--sage-soft); animation: rise .4s cubic-bezier(.2, .8, .3, 1) both; }
+.reveal h3 { font-family: var(--f-hand); font-weight: 700; font-size: 1.5rem; }
+.reveal .t-ok { color: var(--ok); } .reveal .t-no { color: var(--no); }
+.big { font-family: var(--f-hand); font-weight: 700; font-size: 2.6rem; margin-top: 4px; }
+
+/* ---- 마무리 화면 ---- */
+.done { text-align: center; }
+.done .sproutheart { width: 150px; height: 150px; display: block; margin: 0 auto 4px; overflow: visible; }
+.done .actions { justify-content: center; }
