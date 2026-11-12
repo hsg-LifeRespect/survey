@@ -3,9 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>구름마음</title>
-<meta http-equiv="refresh" content="0; url=maeum/">
-<link rel="canonical" href="maeum/">
+<title>횡성 마음 쉼터 · 구름마음 · 숨쉼</title>
+<meta name="description" content="마음 자가검진(구름마음)과 호흡 가이드·마음 건강 퀴즈(숨쉼) 중 골라서 시작해 보세요. 이름이나 연락처 없이 이용할 수 있어요.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="shared/common.css">
+<link rel="stylesheet" href="shim/style.css">
+<style>
+.choose { text-align: center; padding-top: 6px; }
+.choose h1 { font-family: var(--f-hand); font-weight: 700; font-size: clamp(2.2rem, 8vw, 3.1rem); line-height: 1.2; }
+.choose .lead { margin: 8px auto 0; max-width: 28em; }
+.choose .sproutheart { width: 130px; height: 130px; display: block; margin: 0 auto 2px; overflow: visible; }
+.choose .cards { text-align: left; margin-top: 22px; }
+.card.c-peach { background: linear-gradient(155deg, var(--soft), var(--card) 75%); }
+.card .go { display: inline-block; margin-top: 12px; color: var(--ink); font-weight: 500; }
+.card .meta { margin-top: 8px; font-size: .85rem; color: var(--muted); }
+</style>
 </head>
-<body><p><a href="maeum/">구름마음 자가검진으로 이동</a></p></body>
+<body data-view="home">
+<div class="bgs" aria-hidden="true"><i class="b-home"></i><i class="b-calm"></i><i class="b-blue"></i></div>
+<div class="sky" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div></div>
+<div class="wrap">
+  <header class="top">
+    <span class="brand"><img class="loc-logo" src="shared/logo.png" alt="횡성군"><span>횡성 마음 쉼터</span></span>
+    <div class="tools" id="tools"></div>
+  </header>
+  <main class="choose in-up" id="main"></main>
+  <div id="help"></div>
+  <footer id="foot"></footer>
+</div>
+<noscript><p style="padding:16px">구름마음: <a href="maeum/">maeum/</a> · 숨쉼: <a href="shim/">shim/</a></p></noscript>
+<script src="shared/config.js"></script>
+<script src="shared/common.js"></script>
+<script src="shared/illus.js"></script>
+<script>
+(function () {
+  var C = window.Common, I = window.Illus;
+  document.getElementById("tools").innerHTML = C.fsHtml;
+  C.initFs();
+  document.getElementById("help").innerHTML = C.crisisHtml();
+  C.linkNums(document.getElementById("help"));
+  document.getElementById("foot").innerHTML =
+    "<p>이 사이트의 검진은 참고용 선별 도구이며 의학적 진단이 아닙니다.</p>" +
+    (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다(GoatCounter, 쿠키 없음). 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
+  document.getElementById("main").innerHTML =
+    I.sprout("R") +
+    '<h1>어디로 <span class="hl">가볼까요?</span></h1>' +
+    '<p class="lead">오늘 마음에 맞는 곳을 골라 보세요. 이름이나 연락처 없이 이용할 수 있어요.</p>' +
+    '<div class="cards">' +
+    '<a class="card c-peach" style="--i:0" data-go="maeum" data-from="home" href="maeum/?ref=home">' + I.icon("talk") +
+      '<span class="tagc">자가검진 · 익명</span><h2>구름마음</h2><p>우울, 불안, 스트레스 등 요즘 내 마음 상태를 날씨로 살펴보는 검진이에요.</p><div class="meta">검사마다 2~5분 걸려요</div><span class="go">검진하러 가기 →</span></a>' +
+    '<a class="card c-green" style="--i:1" data-go="shim" data-from="home" href="shim/?ref=home">' + I.icon("bloom") +
+      '<span class="tagc">쉬어 가기 · 알아가기</span><h2>숨쉼</h2><p>꽃을 따라 숨을 고르는 호흡 가이드와, 마음 건강 오해를 풀어 보는 OX 퀴즈가 있어요.</p><div class="meta">1분부터 가볍게</div><span class="go">쉬러 가기 →</span></a>' +
+    '</div>';
+})();
+</script>
+</body>
 </html>

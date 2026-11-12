@@ -111,8 +111,9 @@ svg .cdrift { animation: cdrift var(--t, 18s) ease-in-out infinite alternate; }
 body.session-mode .help-strip, body.session-mode footer, body.session-mode .tools .sw, body.session-mode .garden { display: none; }
 
 /* ---- OX 퀴즈 ---- */
-.fl-row { display: flex; gap: 6px; justify-content: center; margin: 4px 0 14px; flex-wrap: wrap; }
-.fl { width: 28px; height: 28px; overflow: visible; }
+.fl-row { display: flex; gap: 4px; justify-content: center; margin: 4px 0 14px; flex-wrap: nowrap; }
+.fl { width: 20px; height: 20px; overflow: visible; flex: none; }
+@media (min-width: 480px) { .fl-row { gap: 6px; } .fl { width: 28px; height: 28px; } }
 .fl .p { fill: var(--line); transition: fill .4s; } .fl .c { fill: var(--bg); transition: fill .4s; }
 .fl.done .p { fill: var(--petal); } .fl.done .c { fill: var(--sun); }
 .fl.fresh { animation: pop .7s cubic-bezier(.3, 1.5, .5, 1); }
@@ -136,3 +137,58 @@ body.session-mode .help-strip, body.session-mode footer, body.session-mode .tool
 .done { text-align: center; }
 .done .sproutheart { width: 150px; height: 150px; display: block; margin: 0 auto 4px; overflow: visible; }
 .done .actions { justify-content: center; }
+
+.adv { display: inline-block; margin-left: 6px; padding: 1px 10px; border-radius: 999px; background: var(--soft); color: var(--ink); font-size: .8rem; font-weight: 500; }
+.reveal .src { margin-top: 8px; font-size: .82rem; color: var(--muted); }
+
+/* ---- 마음 카드 ---- */
+svg .hflat { fill: var(--heart1); } svg .hflat2 { fill: var(--petal2); }
+.ic .ic-path { stroke: var(--leaf2); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1 9; } .ic .ic-t1 { fill: var(--hill2); } .ic .ic-t2 { fill: var(--hill3); }
+.card.c-warm { background: linear-gradient(155deg, var(--warm-soft), var(--card) 75%); }
+.card.c-peach { background: linear-gradient(155deg, var(--soft), var(--card) 75%); }
+.catchips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin: 12px 0 16px; }
+.catchips .chip { padding: 4px 14px; font-size: .92rem; }
+.deck { display: grid; touch-action: pan-y; user-select: none; position: relative; padding-bottom: 14px; }
+.deck::before, .deck::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 6px; height: 40px; border-radius: 0 0 26px 26px; background: var(--card); border: 1px solid var(--line); z-index: 0; }
+.deck::after { left: 28px; right: 28px; bottom: 0; opacity: .7; }
+.ccard { grid-area: 1 / 1; position: relative; z-index: 1; min-height: 300px; border-radius: 28px; padding: 26px 24px 22px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); box-shadow: 0 12px 28px rgba(190, 110, 100, .16); overflow: hidden; }
+.k-emp { background: linear-gradient(160deg, var(--soft), var(--card)); }
+.k-cmf { background: linear-gradient(160deg, var(--blue-soft), var(--card)); }
+.k-rest { background: linear-gradient(160deg, var(--sage-soft), var(--card)); }
+.k-with { background: linear-gradient(160deg, var(--warm-soft), var(--card)); }
+.ccard .kind { position: absolute; top: 16px; left: 20px; font-size: .82rem; color: var(--muted); font-weight: 500; }
+.ccard .save { position: absolute; top: 8px; right: 10px; width: 44px; height: 44px; border: 0; background: transparent; font-size: 1.5rem; line-height: 1; color: var(--accent); }
+.ccard .save[aria-pressed="true"] { color: var(--btn); animation: pop2 .4s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pop2 { from { transform: scale(.6); } to { transform: scale(1); } }
+.ccard .ctext { font-family: var(--f-hand); font-weight: 700; font-size: clamp(1.55rem, 6.4vw, 2rem); line-height: 1.45; text-wrap: balance; padding: 14px 0 20px; position: relative; z-index: 1; }
+.ccard .chelp { font-size: .9rem; position: relative; z-index: 1; }
+.ccard .motif { position: absolute; right: 8px; bottom: 6px; width: 96px; height: 96px; opacity: .85; pointer-events: none; }
+.ccard.enter { animation: cardIn .5s cubic-bezier(.2, .9, .3, 1) both; }
+.ccard.leave-l { animation: cardOutL .34s ease-in forwards; z-index: 2; }
+.ccard.leave-r { animation: cardOutR .34s ease-in forwards; z-index: 2; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes cardOutL { to { opacity: 0; transform: translateX(-70%) rotate(-9deg); } }
+@keyframes cardOutR { to { opacity: 0; transform: translateX(70%) rotate(9deg); } }
+.deckbar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.deckhint { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+.empty { text-align: center; color: var(--muted); padding: 40px 10px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---- 산책길 ---- */
+.walks { display: grid; gap: 16px; margin-top: 18px; }
+.wcard { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: linear-gradient(160deg, var(--sage-soft), var(--card) 70%); animation: rise .6s cubic-bezier(.2, .8, .3, 1) both; animation-delay: calc(var(--i, 0) * .1s); }
+.wcard .wimg { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--hill1); }
+.wcard .wbody { padding: 18px 20px 20px; }
+.wcard h3 { font-family: var(--f-hand); font-weight: 700; font-size: 1.6rem; }
+.wmeta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.wmeta span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 1px 12px; font-size: .85rem; }
+.wmeta .lv { background: var(--sage-soft); color: var(--sage-ink); border-color: var(--sage); }
+.wtags { margin-top: 8px; color: var(--sage-ink); font-size: .88rem; }
+.wcard p.intro { margin-top: 10px; }
+.wcard dl { margin: 12px 0 0; display: grid; gap: 8px; }
+.wcard dt { font-weight: 500; font-size: .88rem; color: var(--sage-ink); }
+.wcard dd { margin: 0; font-size: .95rem; }
+.wcard.ghost { border-style: dashed; background: var(--card); animation: none; }
+.wcard.ghost .ph { color: var(--muted); }
+.wcard.ghost .wimg { display: grid; place-items: center; color: var(--muted); font-size: .9rem; border-bottom: 1px dashed var(--line); background: var(--sage-soft); }
+.wnote { margin-top: 16px; text-align: center; font-family: var(--f-hand); font-weight: 700; font-size: 1.4rem; }
