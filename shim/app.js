@@ -5,7 +5,7 @@
 
   /* 머리말·꼬리말 */
   document.getElementById("tools").innerHTML = C.fsHtml +
-    '<a class="sw" data-go="maeum" data-from="shim-header" href="../maeum/?ref=shim-header">구름마음 검진</a>';
+    '<a class="sw" data-go="home" data-from="shim-header" href="../?ref=shim-header">처음 화면</a>';
   C.initFs();
   document.getElementById("help").innerHTML = C.crisisHtml();
   document.getElementById("foot").innerHTML = "<p>" + esc(S.FOOT) + "</p>" +
@@ -46,7 +46,7 @@
       '<div class="cards">' +
       '<a class="card c-green" style="--i:0" href="#breath">' + I.icon("bloom") + '<span class="tagc">1분부터</span><h2>호흡 가이드</h2><p>꽃이 활짝 폈다 오므라드는 걸 따라 천천히 숨 쉬어 보세요. 소리 없이 화면만 보면 돼요.</p></a>' +
       '<a class="card c-peach" style="--i:1" href="#cards">' + I.icon("heart") + '<span class="tagc">카드 ' + S.CARDS.length + '장 · 계속 넘겨 보기</span><h2>마음 카드</h2><p>공감이 되는 말, 도움이 되는 말이 카드로 계속 나와요. 마음에 드는 건 저장해 두세요.</p></a>' +
-      '<a class="card c-blue" style="--i:2" href="#myth">' + I.icon("talk") + '<span class="tagc">OX 퀴즈 · ' + S.MYTHS.length + '문항</span><h2>마음 건강, 맞을까요?</h2><p>흔히 오해하는 마음 건강 이야기와 잘 몰랐던 이야기를 가볍게 확인해 보세요.</p></a>' +
+      '<a class="card c-blue" style="--i:2" href="#myth">' + I.icon("talk") + '<span class="tagc">OX 퀴즈 · ' + S.MYTHS.length + '문항</span><h2>마음 건강, 맞을까요?</h2><p>흔히 오해하는 마음 건강 이야기를 가볍게 확인해 보세요.</p></a>' +
       '<a class="card c-warm" style="--i:3" href="#walk">' + I.icon("walk") + '<span class="tagc">' + (S.WALKS.length ? "길 " + S.WALKS.length + "곳" : "준비 중") + '</span><h2>횡성 산책길</h2><p>걸으며 숨을 고르기 좋은 횡성의 길을 소개해요.</p></a></div>' +
       '<div class="sisterbox"><div><b>내 마음 상태가 궁금하다면</b><span>우울·불안·스트레스를 살펴보는 익명 자가검진이에요.</span></div>' +
       maeumBtn("shim-home", "구름마음 검진 →") + "</div>" +

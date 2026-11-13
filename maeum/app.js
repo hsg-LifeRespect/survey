@@ -454,12 +454,6 @@ app.addEventListener("click", function (e) {
 document.getElementById("brand").addEventListener("click", function () {
   if (location.hash === "#home" || location.hash === "") renderHome(); else location.hash = "home";
 });
-document.getElementById("helpLink").addEventListener("click", function (e) {
-  e.preventDefault();
-  document.body.classList.remove("quiz-mode", "result-mode");
-  document.getElementById("help").scrollIntoView({ behavior: "smooth" });
-});
-
 function route() {
   var h = location.hash.replace("#", "");
   if (TESTS[h]) start(h); else renderHome();
