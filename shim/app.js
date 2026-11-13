@@ -12,12 +12,6 @@
     (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다(GoatCounter, 쿠키 없음). 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
   C.linkNums(document.getElementById("help"));
 
-  /* 다른 사이트에서 넘어온 방문 집계 */
-  try {
-    var ref = (new URLSearchParams(location.search).get("ref") || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30);
-    if (ref) C.trackOnce("arrive-" + ref, "다른 사이트에서 도착 · " + ref);
-  } catch (e) {}
-
   var timer = null, wake = null, msgTimer = null, cardTimer = null, navTok = 0;
   function view(v) { document.body.setAttribute("data-view", v); }
   function cleanup() {
@@ -209,12 +203,23 @@
     S.CARDS.forEach(function (c, i) { if (deck.cat === "all" || (deck.cat === "saved" ? sv.indexOf(i) >= 0 : c.k === deck.cat)) out.push(i); });
     return out;
   }
+  /* 무작위 출력: 매번 섞어서 보여 주고, 이 기기에서 아직 안 본 카드를 먼저 보여 줍니다. 다 보면 처음부터 다시 섞습니다. */
+  var SEEN_KEY = "shimSeen", memSeen = [];
+  function getSeen() { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || "[]"); } catch (e) { return memSeen; } }
+  function setSeen(a) { memSeen = a; try { localStorage.setItem(SEEN_KEY, JSON.stringify(a)); } catch (e) {} }
   function nextIdx() {
     if (!deck.queue.length) {
-      deck.queue = shuffle(pool());
-      if (deck.queue.length > 1 && deck.queue[deck.queue.length - 1] === deck.cur) deck.queue.unshift(deck.queue.pop()); /* 방금 본 카드가 바로 또 나오지 않게 */
+      var ids = pool(), seen = getSeen();
+      var unseen = ids.filter(function (i) { return seen.indexOf(i) < 0; });
+      if (!unseen.length) { setSeen(seen.filter(function (i) { return ids.indexOf(i) < 0; })); unseen = ids.slice(); }
+      var rest = ids.filter(function (i) { return unseen.indexOf(i) < 0; });
+      deck.queue = shuffle(rest).concat(shuffle(unseen)); /* 뒤에서부터 꺼내므로 안 본 카드가 먼저 나옵니다 */
+      var L = deck.queue.length;
+      if (L > 1 && deck.queue[L - 1] === deck.cur) { var x = deck.queue[L - 1]; deck.queue[L - 1] = deck.queue[0]; deck.queue[0] = x; }
     }
-    return deck.queue.pop();
+    var pick = deck.queue.pop();
+    if (pick !== undefined) { var sn = getSeen(); if (sn.indexOf(pick) < 0) { sn.push(pick); setSeen(sn); } }
+    return pick;
   }
   function cardHtml(i) {
     var c = S.CARDS[i], saved = getSaved().indexOf(i) >= 0;

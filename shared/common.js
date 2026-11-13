@@ -44,9 +44,11 @@
 
   /* ---- 연락처 ---- */
   C.crisisHtml = function () {
-    var parts = CFG.CONTACTS.map(function (c) { return C.esc(c.label) + ' <span class="num">' + c.num + "</span> (" + C.esc(c.note) + ")"; });
-    return '<div class="help-strip"><b>마음이 많이 힘들 때는 혼자 견디지 마세요.</b><br>' + parts.join(" · ") +
-      '<br>' + C.esc(CFG.EMERGENCY.label) + ' <span class="num">' + CFG.EMERGENCY.num + "</span></div>";
+    var rows = CFG.CONTACTS.concat([CFG.EMERGENCY]).map(function (c) {
+      return '<li><span class="when">' + C.esc(c.when) + "</span>" + (c.key === "emergency-119" ? "" : C.esc(c.label) + " ") +
+        '<span class="num">' + c.num + "</span>" + (c.note ? " (" + C.esc(c.note) + ")" : "") + "</li>";
+    }).join("");
+    return '<div class="help-strip"><b>마음이 많이 힘들 때는 혼자 견디지 마세요.</b><ul class="hl-list">' + rows + "</ul></div>";
   };
   var nameByDigits = {};
   CFG.CONTACTS.concat([CFG.EMERGENCY]).forEach(function (c) { nameByDigits[c.num.replace(/\D/g, "")] = c; });
@@ -72,6 +74,12 @@
   }
   document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") opened(); });
   window.addEventListener("pagehide", opened);
+
+  /* 다른 사이트에서 ?ref=이름 으로 넘어온 방문을 한 번 집계 */
+  try {
+    var ref = (new URLSearchParams(location.search).get("ref") || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30);
+    if (ref) C.trackOnce("arrive-" + ref, "다른 사이트에서 도착 · " + ref);
+  } catch (e) {}
 
   /* 다른 사이트로 가는 링크: <a data-go="maeum" data-from="shim-home"> → 이벤트 go-maeum-from-shim-home */
   document.addEventListener("click", function (e) {
