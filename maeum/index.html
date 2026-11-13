@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구름마음 자가검진</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="hanwoo" viewBox="0 0 200 130">
+      <path class="cw-tail" d="M152 50 C168 56 170 78 163 98"/>
+      <circle class="cw-dark" cx="163" cy="101" r="5"/>
+      <rect class="cw-dark" x="64" y="84" width="9" height="36" rx="4"/>
+      <rect class="cw-dark" x="136" y="84" width="9" height="36" rx="4"/>
+      <rect class="cw-body" x="44" y="42" width="108" height="48" rx="22"/>
+      <ellipse class="cw-body" cx="68" cy="44" rx="21" ry="11"/>
+      <rect class="cw-body" x="52" y="80" width="10" height="40" rx="4"/>
+      <rect class="cw-body" x="124" y="80" width="10" height="40" rx="4"/>
+      <path class="cw-body" d="M40 46 L58 42 L60 78 L38 74 Z"/>
+      <ellipse class="cw-body" cx="32" cy="60" rx="19" ry="15" transform="rotate(25 32 60)"/>
+      <ellipse class="cw-muzzle" cx="19" cy="73" rx="10" ry="8"/>
+      <ellipse class="cw-dark" cx="47" cy="49" rx="9" ry="4" transform="rotate(-20 47 49)"/>
+      <path class="cw-horn" d="M38 46 Q34 36 40 32"/>
+      <circle class="cw-eye" cx="29" cy="58" r="2.2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="sky" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
+
+<div class="wrap">
+  <header class="top">
+    <button class="brand" id="brand" type="button"><i aria-hidden="true"></i>구름마음<img class="loc-logo" alt="횡성군" width="207" height="150" src="../shared/logo.png"></button>
+    <div class="tools">
+      <div class="fs" role="group" aria-label="글자 크기">
+        <button type="button" class="s0" data-fs="0" aria-label="글자 보통" aria-pressed="true">가</button>
+        <button type="button" class="s1" data-fs="1" aria-label="글자 크게" aria-pressed="false">가</button>
+        <button type="button" class="s2" data-fs="2" aria-label="글자 아주 크게" aria-pressed="false">가</button>
+      </div>
+      <a class="help-link" data-go="home" data-from="maeum-header" href="../?ref=maeum-header">처음 화면</a>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <section id="faq" aria-label="자주 묻는 질문">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>이 검진 결과가 의학적 진단인가요?</summary><p>아닙니다. 지난 2주간의 마음 상태를 가늠해 보는 참고용 선별 도구입니다. 정확한 진단은 정신건강의학과 전문의의 면담으로 이루어집니다.</p></details>
+    <details><summary>내가 한 답변이 저장되나요?</summary><p>답변과 점수는 이 화면 안에서만 계산되고 저장하거나 전송하지 않습니다. 창을 닫으면 사라집니다.<span class="stats-note" hidden> 다만 방문 수, 검진 완료 수, 전화 버튼을 누른 수는 통계로 집계되며, 이 통계에는 이름이나 연락처가 포함되지 않습니다.</span></p></details>
+    <details class="stats-note" hidden><summary>방문 기록이 남나요?</summary><p>방문 수, 검진을 끝까지 마친 수, 상담 전화 버튼을 누른 수가 합계로만 집계됩니다. 이름, 연락처, 답변, 점수는 포함되지 않고 쿠키도 사용하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p></details>
+    <details><summary>점수가 높게 나오면 어떻게 해야 하나요?</summary><p>결과 화면에 안내된 단계별 방법을 먼저 살펴보시고, 불편이 이어지면 횡성군 정신건강복지센터 등 전문 기관에 상담해 보세요. 점수와 관계없이 힘들다면 언제든 상담할 수 있습니다.</p></details>
+    <details><summary>얼마나 자주 해 보면 좋을까요?</summary><p>우울과 불안 검진은 지난 2주를 기준으로 하므로, 2주 이상 간격을 두고 다시 해 보시길 권합니다. 마음이 크게 힘들 때는 간격과 관계없이 상담을 먼저 받으세요.</p></details>
+    <details><summary>상담은 비용이 드나요?</summary><p>비용과 이용 방법은 다를 수 있으니 먼저 전화로 문의해 주세요. 어느 번호에 전화할지 모르겠다면 아래 "도움이 필요하시다면?"에서 내 상황에 맞는 번호를 찾아보세요.</p></details>
+  </section>
+
+  <section id="help" aria-label="도움이 필요하시다면?">
+    <p class="help-mini" id="helpMini"></p>
+    <div class="crisis" id="crisisBox"></div>
+  </section>
+
+  <section id="sister" class="sister" aria-label="다른 쉼터">
+    <div>
+      <b>잠깐 숨 돌리고 가실래요?</b>
+      <span>1분 호흡 가이드와 '마음 건강, 맞을까요?' OX 퀴즈가 있는 쉼 공간이에요.</span>
+    </div>
+    <a class="btn" data-go="shim" data-from="maeum-home" href="../shim/?ref=maeum-home">숨쉼 열기 →</a>
+  </section>
+
+  <footer>
+    <p>이 검진은 마음 상태를 가늠해 보는 참고용 선별 도구이며, 의학적 진단이 아닙니다. 점수와 관계없이 불편이 이어지면 정신건강의학과나 지역 정신건강복지센터와 상담해 보세요.</p>
+    <p>입력한 답변과 점수는 이 화면 안에서만 계산되고, 저장하거나 전송하지 않습니다.<span class="stats-note" hidden> 다만 방문 수, 검진 완료 수, 전화 버튼을 누른 수는 통계로 집계되며, 이 통계에는 이름이나 연락처가 포함되지 않습니다.</span></p>
+  </footer>
+
+</div>
+
+<script src="../shared/config.js"></script>
+<script src="../shared/common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
