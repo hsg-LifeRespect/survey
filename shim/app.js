@@ -1,5 +1,8 @@
 (function () {
   var C = window.Common, S = window.SHIM, I = window.Illus;
+  var BUILD = "20261113a";
+  S.CARDS = S.CARDS || []; S.CARD_CATS = S.CARD_CATS || { all: "전체" }; S.WALKS = S.WALKS || []; S.MYTHS = S.MYTHS || [];
+  S.MESSAGES = S.MESSAGES && S.MESSAGES.length ? S.MESSAGES : [{ t: "잠깐 쉬어 가요", em: "쉬어" }];
   var app = document.getElementById("app"), esc = C.esc;
   var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -9,7 +12,7 @@
   C.initFs();
   document.getElementById("help").innerHTML = C.crisisHtml();
   document.getElementById("foot").innerHTML = "<p>" + esc(S.FOOT) + "</p>" +
-    (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다. 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
+    "<p>화면 버전 " + BUILD + "</p>" + (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다. 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
   C.linkNums(document.getElementById("help"));
 
   var timer = null, wake = null, msgTimer = null, cardTimer = null, navTok = 0;
@@ -45,7 +48,7 @@
       '<div class="bubble" id="msg" aria-live="off"></div></div><div class="hero-art">' + I.hero() + "</div></section>" +
       '<div class="cards">' +
       '<a class="card c-green" style="--i:0" href="#breath">' + I.icon("bloom") + '<span class="tagc">1분부터</span><h2>호흡 가이드</h2><p>꽃이 활짝 폈다 오므라드는 걸 따라 천천히 숨 쉬어 보세요. 소리 없이 화면만 보면 돼요.</p></a>' +
-      '<a class="card c-peach" style="--i:1" href="#cards">' + I.icon("heart") + '<span class="tagc">카드 ' + S.CARDS.length + '장 · 계속 넘겨 보기</span><h2>마음 카드</h2><p>공감이 되는 말, 도움이 되는 말이 카드로 계속 나와요. 마음에 드는 건 저장해 두세요.</p></a>' +
+      (S.CARDS.length ? '<a class="card c-peach" style="--i:1" href="#cards">' + I.icon("heart") + '<span class="tagc">카드 ' + S.CARDS.length + '장 · 계속 넘겨 보기</span><h2>마음 카드</h2><p>공감이 되는 말, 도움이 되는 말이 카드로 계속 나와요. 마음에 드는 건 저장해 두세요.</p></a>' : "") +
       '<a class="card c-blue" style="--i:2" href="#myth">' + I.icon("talk") + '<span class="tagc">OX 퀴즈 · ' + S.MYTHS.length + '문항</span><h2>마음 건강, 맞을까요?</h2><p>흔히 오해하는 마음 건강 이야기를 가볍게 확인해 보세요.</p></a>' +
       '<a class="card c-warm" style="--i:3" href="#walk">' + I.icon("walk") + '<span class="tagc">' + (S.WALKS.length ? "길 " + S.WALKS.length + "곳" : "준비 중") + '</span><h2>횡성 산책길</h2><p>걸으며 숨을 고르기 좋은 횡성의 길을 소개해요.</p></a></div>' +
       '<div class="sisterbox"><div><b>내 마음 상태가 궁금하다면</b><span>우울·불안·스트레스를 살펴보는 익명 자가검진이에요.</span></div>' +
@@ -323,7 +326,12 @@
   function route() {
     cleanup();
     var h = location.hash.replace("#", "");
-    if (h === "breath") breathSetup(); else if (h === "myth") mythStart(); else if (h === "cards") cardsView(); else if (h === "walk") walkView(); else home();
+    try {
+      if (h === "breath") breathSetup(); else if (h === "myth") mythStart(); else if (h === "cards") cardsView(); else if (h === "walk") walkView(); else home();
+    } catch (e) {
+      if (window.console) console.error(e);
+      app.innerHTML = '<section class="panel"><h2>화면을 불러오지 못했어요</h2><p class="lead">새로고침(Ctrl+F5)을 해 주세요. 계속 안 되면 관리자에게 알려 주세요.</p></section>';
+    }
   }
   window.addEventListener("hashchange", route);
   route();
