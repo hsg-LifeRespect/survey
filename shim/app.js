@@ -9,7 +9,7 @@
   C.initFs();
   document.getElementById("help").innerHTML = C.crisisHtml();
   document.getElementById("foot").innerHTML = "<p>" + esc(S.FOOT) + "</p>" +
-    (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다(GoatCounter, 쿠키 없음). 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
+    (C.statsOn ? "<p>방문 수와 버튼을 누른 횟수만 통계로 집계합니다. 이름, 연락처, 답변은 수집하지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.</p>" : "");
   C.linkNums(document.getElementById("help"));
 
   var timer = null, wake = null, msgTimer = null, cardTimer = null, navTok = 0;
