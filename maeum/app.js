@@ -188,7 +188,7 @@ function loadStats() {
   if (!Common.statsOn) return;
   document.querySelectorAll(".stats-note").forEach(function (el) { el.hidden = false; });
   var p = document.createElement("p");
-  p.textContent = "통계는 GoatCounter 서비스를 사용하며 쿠키를 쓰지 않습니다. 답변과 점수는 통계로 보내지 않습니다. 글자 크기 설정은 이 기기에만 저장됩니다.";
+  p.textContent = "쿠키를 쓰지 않습니다. 답변과 점수는 통계로 보내지 않습니다.";
   var f = document.querySelector("footer");
   if (f) f.appendChild(p);
 }
