@@ -1,6 +1,6 @@
 (function () {
   var C = window.Common, S = window.SHIM, I = window.Illus;
-  var BUILD = "20261113a";
+  var BUILD = "20261116a";
   S.CARDS = S.CARDS || []; S.CARD_CATS = S.CARD_CATS || { all: "전체" }; S.WALKS = S.WALKS || []; S.MYTHS = S.MYTHS || [];
   S.MESSAGES = S.MESSAGES && S.MESSAGES.length ? S.MESSAGES : [{ t: "잠깐 쉬어 가요", em: "쉬어" }];
   var app = document.getElementById("app"), esc = C.esc;
@@ -49,7 +49,7 @@
       '<div class="cards">' +
       '<a class="card c-green" style="--i:0" href="#breath">' + I.icon("bloom") + '<span class="tagc">1분부터</span><h2>호흡 가이드</h2><p>꽃이 활짝 폈다 오므라드는 걸 따라 천천히 숨 쉬어 보세요. 소리 없이 화면만 보면 돼요.</p></a>' +
       (S.CARDS.length ? '<a class="card c-peach" style="--i:1" href="#cards">' + I.icon("heart") + '<span class="tagc">카드 ' + S.CARDS.length + '장 · 계속 넘겨 보기</span><h2>마음 카드</h2><p>공감이 되는 말, 도움이 되는 말이 카드로 계속 나와요. 마음에 드는 건 저장해 두세요.</p></a>' : "") +
-      '<a class="card c-blue" style="--i:2" href="#myth">' + I.icon("talk") + '<span class="tagc">OX 퀴즈 · ' + S.MYTHS.length + '문항</span><h2>마음 건강, 맞을까요?</h2><p>흔히 오해하는 마음 건강 이야기를 가볍게 확인해 보세요.</p></a>' +
+      '<a class="card c-blue" style="--i:2" href="#myth">' + I.icon("talk") + '<span class="tagc">OX 퀴즈 · ' + Math.min(S.MYTH_PER_ROUND || 12, S.MYTHS.length) + '문항 · 할 때마다 달라져요</span><h2>마음 건강, 맞을까요?</h2><p>흔히 오해하는 마음 건강 이야기를 가볍게 확인해 보세요.</p></a>' +
       '<a class="card c-warm" style="--i:3" href="#walk">' + I.icon("walk") + '<span class="tagc">' + (S.WALKS.length ? "길 " + S.WALKS.length + "곳" : "준비 중") + '</span><h2>횡성 산책길</h2><p>걸으며 숨을 고르기 좋은 횡성의 길을 소개해요.</p></a></div>' +
       '<div class="sisterbox"><div><b>내 마음 상태가 궁금하다면</b><span>우울·불안·스트레스를 살펴보는 익명 자가검진이에요.</span></div>' +
       maeumBtn("shim-home", "구름마음 검진 →") + "</div>" +
@@ -69,12 +69,12 @@
   }
 
   /* ---------- 호흡 가이드 ---------- */
-  var sel = { id: "rest", min: 1 };
+  var sel = { id: (S.PRESETS[0] || { id: "rest" }).id, min: (S.PRESETS[0] || { min: 1 }).min };
   function preset(id) { return S.PRESETS.filter(function (x) { return x.id === id; })[0]; }
   function breathSetup(dir) {
     view("breath"); var p = preset(sel.id);
     show('<section class="panel">' + backLink() + "<h2>호흡 가이드</h2>" +
-      '<p class="lead">지금 상황에 맞는 걸 골라 보세요.</p>' +
+      (S.BREATH_INTRO ? '<p class="lead">' + esc(S.BREATH_INTRO) + "</p>" : "") + '<p class="lead">지금 상황에 맞는 걸 골라 보세요.</p>' +
       '<div class="opts">' + S.PRESETS.map(function (x) {
         return '<button type="button" class="opt" data-p="' + x.id + '" aria-pressed="' + (x.id === sel.id) + '"><b>' + esc(x.name) + "</b> · " + esc(x.desc) + "<small>" + esc(x.pattern) + "</small></button>";
       }).join("") + "</div>" +
@@ -82,7 +82,7 @@
         return '<button type="button" class="chip" data-m="' + m + '" aria-pressed="' + (m === sel.min) + '">' + m + "분</button>";
       }).join("") + "</div>" +
       '<ul class="ready">' + S.BREATH_READY.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" +
-      '<p class="safe">' + esc(S.BREATH_SAFE) + "</p>" +
+      '<p class="safe">' + esc((S.BREATH_AIM ? S.BREATH_AIM + " " : "") + S.BREATH_SAFE) + "</p>" +
       '<div class="actions"><button type="button" class="btn primary" id="go">시작하기</button></div></section>',
       function () {
         app.querySelectorAll(".opt").forEach(function (b) {
@@ -135,7 +135,7 @@
           else { ph = "out"; rem = cycle - c; }
           if (ph !== cur) {
             cur = ph;
-            phaseEl.textContent = { in: "들이쉬세요", hold: "잠시 멈춰요", out: "내쉬세요" }[ph];
+            phaseEl.textContent = (S.BREATH_PHASE || { "in": "들이쉬어요", hold: "잠시 멈춰요", out: "내쉬어요" })[ph];
             orb.style.setProperty("--d", (ph === "in" ? p.inS : p.outS) + "s");
             orb.className = "orb " + ph;
           }
@@ -151,17 +151,25 @@
     cleanup(); view("breath");
     C.trackOnce("breath-complete-" + p.id, "호흡 가이드 완료 · " + p.name);
     show('<section class="panel done">' + I.sprout("B") + "<h2>수고하셨어요</h2><p class=\"lead\">" + esc(S.BREATH_DONE) + "</p>" +
+      (S.BREATH_CHECK ? '<p class="lead">' + esc(S.BREATH_CHECK) + "</p>" : "") + (S.BREATH_DONE_MORE ? '<p class="lead">' + esc(S.BREATH_DONE_MORE) + "</p>" : "") +
       '<div class="actions"><button type="button" class="btn primary" id="again">한 번 더</button><a class="btn" href="#myth">OX 퀴즈 해 보기</a>' +
       maeumBtn("shim-breath-done", "내 마음 검진해 보기") + "</div></section>",
       function () { document.getElementById("again").onclick = function () { breathSetup(); }; });
   }
 
   /* ---------- 마음 건강, 맞을까요? ---------- */
-  var mq = { i: 0, right: 0 };
-  function mythStart() { mq = { i: 0, right: 0 }; C.trackOnce("myth-start", "OX 퀴즈 시작"); mythQ("up"); }
+  var mq = { i: 0, right: 0 }, quiz = [];
+  function roundSize() { return Math.min(S.MYTH_PER_ROUND || 12, S.MYTHS.length); }
+  function pickRound() {
+    var n = roundSize(), yes = shuffle(S.MYTHS.filter(function (q) { return q.ok; })), no = shuffle(S.MYTHS.filter(function (q) { return !q.ok; }));
+    var wy = Math.min(yes.length, Math.round(n * 0.4)), wn = Math.min(no.length, n - wy); wy = Math.min(yes.length, n - wn);
+    return shuffle(yes.slice(0, wy).concat(no.slice(0, wn)));
+  }
+  function mythStart() { mq = { i: 0, right: 0 }; quiz = pickRound(); C.trackOnce("myth-start", "OX 퀴즈 시작"); mythQ("up"); }
   function mythQ(dir) {
     view("myth");
-    var q = S.MYTHS[mq.i], n = S.MYTHS.length, fl = "";
+    if (!quiz.length) quiz = pickRound();
+    var q = quiz[mq.i], n = quiz.length, fl = "";
     for (var k = 0; k < n; k++) fl += I.flowerDot(k < mq.i ? (k === mq.i - 1 && dir === "next" ? "done fresh" : "done") : (k === mq.i ? "now" : ""));
     show('<section class="panel">' + backLink() + '<div class="fl-row" aria-hidden="true">' + fl + "</div>" +
       '<div class="qno">' + (mq.i + 1) + " / " + n + (q.adv ? ' <span class="adv">잘 모르는 이야기</span>' : "") + "</div>" +
@@ -188,7 +196,7 @@
   }
   function mythDone() {
     C.trackOnce("myth-complete", "OX 퀴즈 완료"); view("myth");
-    show('<section class="panel done">' + I.sprout("M") + "<h2>끝까지 해 주셨어요</h2><div class=\"big\">" + mq.right + " / " + S.MYTHS.length + "</div>" +
+    show('<section class="panel done">' + I.sprout("M") + "<h2>끝까지 해 주셨어요</h2><div class=\"big\">" + mq.right + " / " + quiz.length + "</div>" +
       '<p class="lead">' + esc(S.MYTH_DONE_NOTE) + "</p>" +
       '<div class="actions"><a class="btn primary" href="#breath">숨 고르러 가기</a><button type="button" class="btn" id="re">다시 해 보기</button>' +
       maeumBtn("shim-myth-done", "내 마음 검진해 보기") + "</div></section>",
