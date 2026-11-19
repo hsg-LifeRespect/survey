@@ -1,6 +1,6 @@
 (function () {
   var C = window.Common, S = window.SHIM, I = window.Illus;
-  var BUILD = "20261116a";
+  var BUILD = "20261119a";
   S.CARDS = S.CARDS || []; S.CARD_CATS = S.CARD_CATS || { all: "전체" }; S.WALKS = S.WALKS || []; S.MYTHS = S.MYTHS || [];
   S.MESSAGES = S.MESSAGES && S.MESSAGES.length ? S.MESSAGES : [{ t: "잠깐 쉬어 가요", em: "쉬어" }];
   var app = document.getElementById("app"), esc = C.esc;
@@ -46,6 +46,9 @@
       '<div class="in"><section class="hero"><div><h1>오늘도 고생 많으셨어요,<br><span class="hl">잠깐 쉬어 가요</span></h1>' +
       '<p class="lead">오늘도 바쁜 하루, 잠깐 마음을 쉬게 할 수 있는 공간이에요. 잠깐 시간 좀 내주실 수 있으실까요?</p>' +
       '<div class="bubble" id="msg" aria-live="off"></div></div><div class="hero-art">' + I.hero() + "</div></section>" +
+      '<a class="chatcard" data-go="chat" data-from="shim-home" href="../chat/?ref=shim-home">' +
+      '<svg class="cc-gu" viewBox="0 0 120 84" aria-hidden="true"><g class="gu-b"><ellipse cx="60" cy="56" rx="50" ry="22"/><circle cx="40" cy="42" r="22"/><circle cx="70" cy="34" r="27"/><circle cx="92" cy="48" r="16"/></g><ellipse class="gu-e" cx="50" cy="52" rx="3.4" ry="4"/><ellipse class="gu-e" cx="72" cy="52" rx="3.4" ry="4"/><path class="gu-m" d="M56 60 Q61 64.5 66 60"/><circle class="gu-c" cx="41" cy="60" r="5"/><circle class="gu-c" cx="81" cy="60" r="5"/></svg>' +
+      '<div class="cc-t"><span class="tagc">새로 생겼어요 · 5분 안팎</span><h2>구름이와 이야기하기</h2><p>지금 마음을 골라 보면, 구름이가 쉬어 갈 방법과 도움받을 곳을 함께 찾아 드려요.</p></div><span class="cc-go">이야기 시작 →</span></a>' +
       '<div class="cards">' +
       '<a class="card c-green" style="--i:0" href="#breath">' + I.icon("bloom") + '<span class="tagc">1분부터</span><h2>호흡 가이드</h2><p>꽃이 활짝 폈다 오므라드는 걸 따라 천천히 숨 쉬어 보세요. 소리 없이 화면만 보면 돼요.</p></a>' +
       (S.CARDS.length ? '<a class="card c-peach" style="--i:1" href="#cards">' + I.icon("heart") + '<span class="tagc">카드 ' + S.CARDS.length + '장 · 계속 넘겨 보기</span><h2>마음 카드</h2><p>공감이 되는 말, 도움이 되는 말이 카드로 계속 나와요. 마음에 드는 건 저장해 두세요.</p></a>' : "") +

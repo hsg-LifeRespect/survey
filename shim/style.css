@@ -192,3 +192,14 @@ svg .hflat { fill: var(--heart1); } svg .hflat2 { fill: var(--petal2); }
 .wcard.ghost .ph { color: var(--muted); }
 .wcard.ghost .wimg { display: grid; place-items: center; color: var(--muted); font-size: .9rem; border-bottom: 1px dashed var(--line); background: var(--sage-soft); }
 .wnote { margin-top: 16px; text-align: center; font-family: var(--f-hand); font-weight: 700; font-size: 1.4rem; }
+
+/* 구름이와 이야기하기 진입 카드 */
+.chatcard { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 16px; margin-top: 20px; padding: 18px 20px; border-radius: 24px; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); background: linear-gradient(135deg, var(--blue-soft), var(--card) 70%); animation: rise .6s cubic-bezier(.2, .8, .3, 1) both; transition: transform .25s, box-shadow .25s; }
+.chatcard:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(190, 110, 100, .16); }
+.chatcard:active { transform: scale(.98); }
+.chatcard .cc-gu { width: 84px; overflow: visible; filter: drop-shadow(0 5px 8px rgba(150, 100, 90, .16)); animation: bob 3.6s ease-in-out infinite; }
+.chatcard .gu-b { fill: var(--cloud); } .chatcard .gu-e { fill: var(--fg); } .chatcard .gu-m { fill: none; stroke: var(--fg); stroke-width: 2.4; stroke-linecap: round; } .chatcard .gu-c { fill: var(--heart1); opacity: .55; }
+.chatcard h2 { font-family: var(--f-hand); font-weight: 700; font-size: 1.7rem; margin: 4px 0 2px; }
+.chatcard .cc-go { grid-column: 1 / -1; justify-self: end; color: var(--ink); font-weight: 500; }
+@media (max-width: 420px) { .chatcard { grid-template-columns: 1fr; } .chatcard .cc-gu { width: 70px; } }
